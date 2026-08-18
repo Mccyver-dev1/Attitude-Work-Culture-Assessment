@@ -7,8 +7,7 @@
 
     <!-- html2canvas สำหรับบันทึกหน้าจอเป็นรูปภาพ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-        <!-- โค้ดแสดงรูปโลโก้ -->
-    <img src="logo.png" alt="SIAM HRBP Logo" style="height: 50px; width: auto;">
+    
     <style>
         :root {
             --primary: #2563eb;
@@ -39,6 +38,20 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             flex: 1;
+        }
+
+        /* จัดระเบียบการแสดงผลของโลโก้ */
+        .logo-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .site-logo {
+            max-height: 70px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            display: inline-block;
         }
 
         h1 {
@@ -305,6 +318,11 @@
 <div class="container">
     <!-- หน้าทำแบบประเมิน -->
     <div id="assessment-view">
+        <!-- ย้ายโลโก้เข้ามาวางด้านบนของหัวข้อใน Container -->
+        <div class="logo-header">
+            <img src="logo.png" alt="SIAM HRBP Logo" class="site-logo">
+        </div>
+
         <h1>SIAM-HRBP แบบประเมินทัศนคติและค่านิยมการทำงาน</h1>
         <div class="subtitle">Attitude & Work Culture Combined Assessment (Objective & Subjective)</div>
 
@@ -363,6 +381,9 @@
     <!-- หน้าแสดงผลลัพธ์ (เปิดใน Tab ใหม่) -->
     <div id="result-view" style="display: none;">
         <div id="capture-area">
+            <div class="logo-header">
+                <img src="logo.png" alt="SIAM HRBP Logo" class="site-logo">
+            </div>
             <h2 style="text-align: center; color: var(--primary); margin-top:0;">รายงานผลการประเมินทัศนคติและค่านิยมการทำงาน</h2>
             <div style="text-align: center; color: #64748b; font-size: 0.85rem; margin-bottom: 16px;">Attitude & Work Culture Assessment Report</div>
 
