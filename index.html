@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIAM-HRBP แบบประเมินทัศนคติและค่านิยมการทำงาน (Attitude & Work Culture Assessment)</title>
+    <!-- html2canvas สำหรับบันทึกหน้าจอเป็นรูปภาพ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --border: #cbd5e1;
+        }
+
+        body {
+            font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            flex: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary);
+            font-size: 1.75rem;
+            margin-bottom: 4px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 24px;
+            font-size: 0.95rem;
+        }
+
+        /* Profile inputs */
+        .profile-section {
+            background: #f1f5f9;
+            border: 1px solid var(--border);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Tabs Styling */
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid var(--border);
+            margin-bottom: 24px;
+            gap: 8px;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #64748b;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .instructions {
+            background-color: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 14px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .section-header {
+            background: #e2e8f0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin: 24px 0 16px 0;
+            color: #1e293b;
+        }
+
+        /* Objective Questions Table */
+        .obj-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .obj-table th, .obj-table td {
+            border: 1px solid var(--border);
+            padding: 10px;
+            text-align: left;
+        }
+
+        .obj-table th {
+            background-color: #f8fafc;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .obj-table td.radio-cell {
+            text-align: center;
+            width: 45px;
+        }
+
+        .obj-table input[type="radio"] {
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        /* Subjective Questions */
+        .subj-group {
+            background: #fafafa;
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .subj-title {
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .subj-desc {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 85px;
+            font-family: inherit;
+        }
+
+        /* Navigation & Submit Buttons */
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .btn-action {
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-secondary { background: #94a3b8; color: white; }
+        .btn-secondary:hover { background: #64748b; }
+        .btn-success { background: #10b981; color: white; width: 100%; font-size: 1.1rem; padding: 14px; }
+        .btn-success:hover { background: #059669; }
+
+        /* Capturable Result Layout */
+        #capture-area {
+            background: white;
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .res-header-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 16px;
+            background: #f8fafc;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .res-header-table td {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .score-banner {
+            background: #f1f5f9;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #result-card {
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            margin-bottom: 24px;
+        }
+
+        .level-high { background-color: #f0fdf4; border-color: #22c55e !important; }
+        .level-mod { background-color: #eff6ff; border-color: #3b82f6 !important; }
+        .level-low { background-color: #fef2f2; border-color: #ef4444 !important; }
+
+        .res-subj-container {
+            margin-top: 20px;
+        }
+
+        .res-subj-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 14px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .res-subj-q {
+            font-weight: bold;
+            color: #334155;
+            margin-bottom: 4px;
+        }
+
+        .res-subj-a {
+            color: #0f172a;
+            white-space: pre-wrap;
+            background: white;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0 10px 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- หน้าทำแบบประเมิน -->
+    <div id="assessment-view">
+        <h1>SIAM-HRBP แบบประเมินทัศนคติและค่านิยมการทำงาน</h1>
+        <div class="subtitle">Attitude & Work Culture Combined Assessment (Objective & Subjective)</div>
+
+        <form id="matrix-form" novalidate>
+            <div class="profile-section">
+                <div class="form-group">
+                    <label for="empName">ชื่อเล่น (พนักงาน) <span style="color:red;">*</span></label>
+                    <input type="text" id="empName" class="form-control" placeholder="เช่น ปีเตอร์">
+                </div>
+                <div class="form-group">
+                    <label for="empDept">แผนก / ฝ่าย <span style="color:red;">*</span></label>
+                    <input type="text" id="empDept" class="form-control" placeholder="เช่น การตลาด / Marketing">
+                </div>
+                <div class="form-group">
+                    <label for="startDate">วันเริ่มงาน <span style="color:red;">*</span></label>
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+            </div>
+
+            <!-- Tab Headers -->
+            <div class="tabs-header">
+                <button type="button" class="tab-btn active" onclick="switchTab('obj-tab')">ส่วนที่ 1: แบบตัวเลือกตอบ (ปรนัย 12 ข้อ)</button>
+                <button type="button" class="tab-btn" onclick="switchTab('subj-tab')">ส่วนที่ 2: แบบเขียนตอบ (อัตนัย 8 ข้อ)</button>
+            </div>
+
+            <!-- TAB 1: ปรนัย -->
+            <div id="obj-tab" class="tab-content active">
+                <div class="instructions">
+                    <strong>คำชี้แจง:</strong> โปรดอ่านข้อความและเลือกระดับความคิดเห็นที่ตรงกับความเป็นจริงของพนักงานมากที่สุด (ต้องตอบครบทุกข้อ)<br>
+                    <strong>1</strong> = ไม่จริงเลย/น้อยที่สุด | <strong>2</strong> = จริงบางครั้ง/น้อย | <strong>3</strong> = จริงส่วนใหญ่/มาก | <strong>4</strong> = จริงที่สุด/มากที่สุด
+                </div>
+
+                <div id="objective-container"></div>
+
+                <div class="btn-group" style="justify-content: flex-end;">
+                    <button type="button" class="btn-action btn-primary" onclick="switchTab('subj-tab')">ถัดไป: ทำส่วนอัตนัย ➔</button>
+                </div>
+            </div>
+
+            <!-- TAB 2: อัตนัย -->
+            <div id="subj-tab" class="tab-content">
+                <div class="instructions">
+                    <strong>คำชี้แจง:</strong> โปรดตอบคำถามเชิงสถานการณ์และประสบการณ์จริงให้ครบถ้วนทั้ง 8 ข้อ เพื่อประเมินทัศนคติและวิธีคิดในการทำงาน
+                </div>
+
+                <div id="subjective-container"></div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn-action btn-secondary" onclick="switchTab('obj-tab')">⬅ ย้อนกลับ</button>
+                    <button type="submit" class="btn-action btn-primary" style="background:#10b981;">ประเมินผลและสรุปข้อมูล ➔</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- หน้าแสดงผลลัพธ์ (เปิดใน Tab ใหม่) -->
+    <div id="result-view" style="display: none;">
+        <div id="capture-area">
+            <h2 style="text-align: center; color: var(--primary); margin-top:0;">รายงานผลการประเมินทัศนคติและค่านิยมการทำงาน</h2>
+            <div style="text-align: center; color: #64748b; font-size: 0.85rem; margin-bottom: 16px;">Attitude & Work Culture Assessment Report</div>
+
+            <!-- ข้อมูลพนักงาน -->
+            <table class="res-header-table">
+                <tr>
+                    <td><strong>ชื่อเล่น:</strong> <span id="res-name"></span></td>
+                    <td><strong>แผนก/ฝ่าย:</strong> <span id="res-dept"></span></td>
+                </tr>
+                <tr>
+                    <td><strong>วันเริ่มงาน:</strong> <span id="res-startdate"></span></td>
+                    <td><strong>วันที่ประเมิน:</strong> <span id="res-evaldate"></span></td>
+                </tr>
+            </table>
+
+            <!-- คะแนนรวม ปรนัย -->
+            <div class="score-banner">
+                <div style="font-size:0.95rem; color:#475569;">คะแนนประเมินทัศนคติและวัฒนธรรมองค์กร (Attitude Score)</div>
+                <strong id="culture-score-display" style="font-size: 1.8rem; color: var(--primary);">- / 48</strong>
+            </div>
+
+            <div id="result-card">
+                <div style="font-size: 1.25rem; font-weight: bold; margin-bottom: 6px;" id="group-title"></div>
+                <div id="group-description" style="font-weight: 500; font-size: 0.95rem; margin-bottom: 10px;"></div>
+                <hr style="margin: 12px 0; border: none; border-top: 1px solid rgba(0,0,0,0.1);">
+                <div style="font-weight: bold; margin-bottom: 6px;">แนวทางการบริหารจัดการและคำแนะนำ (Management Strategy)</div>
+                <div id="group-action" style="font-size: 0.9rem;"></div>
+            </div>
+
+            <!-- สรุปคำตอบอัตนัย -->
+            <div class="res-subj-container">
+                <h3 style="color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 4px; margin-bottom: 12px; font-size: 1.1rem;">
+                    สรุปคำตอบแบบทดสอบอัตนัย (Subjective Assessment Answers)
+                </h3>
+                <div id="res-subj-list"></div>
+            </div>
+        </div>
+
+        <button id="download-btn" class="btn-action btn-success" style="margin-top: 20px;">
+            📸 บันทึกผลการประเมินเป็นรูปภาพ (Single PNG Image)
+        </button>
+    </div>
+</div>
+
+<footer>
+    @2024 Siam-HRBP Soft
+</footer>
+
+<script>
+// ข้อมูลแบบปรนัย 12 ข้อ
+const objCategories = [
+    {
+        cat: "🟢 หมวดที่ 1: ทัศนคติต่อตนเองและการเรียนรู้ (Growth Mindset & Ownership)",
+        items: [
+            { id: 1, text: "เมื่อเกิดความผิดพลาดในงาน คุณพร้อมยืดอกรับผิดชอบ โดยไม่โยนความผิดให้คนอื่นหรือสิ่งแวดล้อม" },
+            { id: 2, text: "เมื่อได้รับ Feedback/ข้อติชม คุณเปิดรับด้วยทัศนคติที่ดี และนำไปปรับปรุงตัวทันทีโดยไม่แสดงอาการต่อต้าน" },
+            { id: 3, text: "คุณมีความพยายามก้าวผ่านอุปสรรค มองปัญหาว่าเป็นโอกาสในการเรียนรู้มากกว่าเป็นข้ออ้างในการยอมแพ้" },
+            { id: 4, text: "คุณเสนอตัวรับความท้าทายใหม่ๆ หรือเรียนรู้ทักษะเพิ่มด้วยตนเอง โดยไม่ต้องรอให้หัวหน้าบังคับ" }
+        ]
+    },
+    {
+        cat: "🔵 หมวดที่ 2: ทัศนคติต่อเพื่อนร่วมงานและการทำงานเป็นทีม (Teamwork & Collaboration)",
+        items: [
+            { id: 5, text: "คุณยินดีช่วยเหลือเพื่อนร่วมงานหรือทีมอื่น แม้ว่างานนั้นจะไม่ใช่หน้าที่โดยตรงของตนเอง" },
+            { id: 6, text: "คุณรับฟังความคิดเห็นของผู้อื่นที่มีมุมมองแตกต่าง และพยายามหาข้อสรุปร่วมกันด้วยเหตุผล" },
+            { id: 7, text: "คุณไม่นินทา ไม่สร้างกลุ่มก้อนความขัดแย้ง และไม่ปล่อยพลังงานลบบั่นทอนบรรยากาศการทำงาน" },
+            { id: 8, text: "คุณร่วมแสดงความยินดีและให้เกียรติในความสำเร็จของเพื่อนร่วมงานอย่างจริงใจ" }
+        ]
+    },
+    {
+        cat: "🔴 หมวดที่ 3: ทัศนคติต่อองค์กรและค่านิยมหลัก (Alignment & Integrity)",
+        items: [
+            { id: 9, text: "คุณเคารพกฎระเบียบ นโยบาย และค่านิยมหลัก (Core Values) ขององค์กรด้วยความสมัครใจ" },
+            { id: 10, text: "คุณให้ความสำคัญกับประโยชน์ส่วนรวมของทีม/องค์กร มาก่อนประโยชน์หรือความสะดวกส่วนตน" },
+            { id: 11, text: "คุณปฏิบัติตนด้วยความซื่อสัตย์ โปร่งใส ไม่หมกเม็ดข้อมูล และรักษาคำพูดในการทำงาน" },
+            { id: 12, text: "คุณพูดถึงองค์กร ทีมงาน และหัวหน้างานในเชิงบวก ทั้งต่อหน้าและลับหลัง" }
+        ]
+    }
+];
+
+// ข้อมูลแบบอัตนัย 8 ข้อ (4 หมวด)
+const subjCategories = [
+    {
+        cat: "หมวดที่ 1: ความรับผิดชอบและการรับผิดชอบร่วม (Accountability & Ownership)",
+        q1: { id: "s1_1", title: "สถานการณ์:", text: "หากโครงการที่คุณรับผิดชอบเกิดความผิดพลาดรุนแรงเนื่องจากข้อมูลที่คุณรับมาจากเพื่อนร่วมทีมไม่ถูกต้อง คุณจะมีวิธีจัดการกับสถานการณ์นั้นในสื่อสารกับหัวหน้างานและทีมอย่างไร?" },
+        q2: { id: "s1_2", title: "ประสบการณ์จริง:", text: "ถ่ายทอดประสบการณ์ที่คุณเห็นปัญหาในกระบวนการทำงานหรือในองค์กร ทั้งที่ไม่ใช่หน้าที่โดยตรงของคุณ คุณตัดสินใจทำอย่างไรกับปัญหานั้น และผลลัพธ์เป็นอย่างไร?" }
+    },
+    {
+        cat: "หมวดที่ 2: ความยืดหยุ่นและการเปิดรับการเปลี่ยนแปลง (Adaptability & Growth Mindset)",
+        q1: { id: "s2_1", title: "สถานการณ์:", text: "หากเป้าหมายหรือทิศทางของโครงการถูกสั่งเปลี่ยนกลางคันอย่างกะทันหัน ซึ่งทำให้งานที่คุณทำมาตลอด 2 สัปดาห์ต้องถูกยกเลิก คุณจะมีวิธีจัดการกับอารมณ์ตนเองและเริ่มปรับตัวเข้ากับทิศทางใหม่อย่างไร?" },
+        q2: { id: "s2_2", title: "ประสบการณ์จริง:", text: "เล่าถึงครั้งที่คุณได้รับ Feedback หรือคำวิพากษ์วิจารณ์เชิงลบเกี่ยวกับผลงานตนเอง คุณมีความรู้สึกแรกอย่างไร และนำ Feedback นั้นไปปรับปรุงการทำงานจริงอย่างไร?" }
+    },
+    {
+        cat: "หมวดที่ 3: การทำงานร่วมกันและสร้างบรรยากาศที่ดี (Collaboration & Teamwork)",
+        q1: { id: "s3_1", title: "สถานการณ์:", text: "หากคุณต้องทำงานร่วมกับเพื่อนร่วมทีมที่มีสไตล์การทำงานขัดแย้งกับคุณอย่างสิ้นเชิง จนส่งผลให้งานล่าช้า คุณจะมีขั้นตอนการเปิดใจพูดคุยเพื่อหาข้อตกลงร่วมกันอย่างไร?" },
+        q2: { id: "s3_2", title: "ประสบการณ์จริง:", text: "ยกตัวอย่างเหตุการณ์ที่คุณยอมเสียสละประโยชน์หรือเวลาส่วนตัว เพื่อช่วยเหลือเพื่อนร่วมทีมหรือภาพรวมของทีมให้บรรลุเป้าหมายองค์กร" }
+    },
+    {
+        cat: "หมวดที่ 4: ความยึดมั่นในจริยธรรมและค่านิยมองค์กร (Integrity & Core Values)",
+        q1: { id: "s4_1", title: "สถานการณ์:", text: "หากคุณพบทางลัดในการทำงานที่จะช่วยให้บรรลุ KPI ได้เร็วขึ้นและทันเวลา แต่ทางลัดนั้นลดทอนมาตรฐานคุณภาพหรือละเลยระเบียบปฏิบัติบางอย่างขององค์กร คุณจะตัดสินใจอย่างไร?" },
+        q2: { id: "s4_2", title: "ประสบการณ์จริง:", text: "อะไรคือ \"ค่านิยมส่วนตัว (Personal Core Value)\" ที่คุณให้ความสำคัญที่สุดในการทำงาน และเมื่อต้องตกอยู่ในสถานการณ์ที่ต้องเลือกระหว่างผลประโยชน์งานกับค่านิยมนี้ คุณรับมืออย่างไร?" }
+    }
+];
+
+// เกณฑ์การแปลผลคะแนน 48 คะแนน
+const scoreLevels = {
+    high: {
+        title: "37 – 48 คะแนน: High Culture / Excellent Attitude (ทัศนคติดีเยี่ยม)",
+        desc: "เป็นตัวอย่างที่ดี (Role Model) มีจิตสำนึกส่วนรวมสูง พร้อมสนับสนุนองค์กรและเพื่อนร่วมงาน",
+        action: "• <strong>Empowering & Rewarding:</strong> รักษาไว้ มอบโอกาสในการเติบโต และโปรโมตเป็นผู้นำ<br>• สนับสนุนให้เป็น Mentor ช่วยเทรนและปรับทัศนคติน้องๆ ในทีม<br>• ให้ความไว้วางใจและมอบอิสระในการตัดสินใจ (Autonomy)",
+        class: "level-high"
+    },
+    moderate: {
+        title: "25 – 36 คะแนน: Moderate Culture / Good Attitude (ทัศนคติดี / ปานกลาง)",
+        desc: "สอดคล้องกับวัฒนธรรมองค์กรทั่วไป แต่อาจมีบางเรื่องที่ต้องตักเตือนหรือโค้ชเพิ่มเติม",
+        action: "• <strong>Coaching & Aligning:</strong> โค้ชชิ่งเพิ่มทักษะการเปิดรับ Feedback หรือการทำงานข้ามทีม (Cross-functional)<br>• ชี้แจงความคาดหวังเรื่อง Core Values ให้ชัดเจนขึ้น<br>• ติดตามและให้ Feedback เชิงบวกอย่างสม่ำเสมอเพื่อสร้างพลังบวก",
+        class: "level-mod"
+    },
+    low: {
+        title: "12 – 24 คะแนน: Low Culture / Poor Attitude (ทัศนคติมีปัญหา / เสี่ยง Toxic)",
+        desc: "มีพฤติกรรมสร้างพลังงานลบ ไม่เคารพกฎ หรือเห็นแก่ตัว ส่งผลกระทบต่อบรรยากาศในทีม",
+        action: "• <strong>Re-align or Exit:</strong> ตักเตือนเรื่องพฤติกรรมอย่างจริงจัง สื่อสารขอบเขตที่ยอมรับไม่ได้อย่างเด็ดขาด<br>• ทำข้อตกลงและบันทึกปรับเปลี่ยนพฤติกรรมเป็นลายลักษณ์อักษร<br>• หากไม่ปรับปรุงตัว ให้เริ่มกระบวนการให้ออกจากทีม (Offboarding/Exit)",
+        class: "level-low"
+    }
+};
+
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    
+    if (tabId === 'obj-tab') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+    } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+    }
+    document.getElementById(tabId).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderObjectiveQuestions() {
+    const container = document.getElementById('objective-container');
+    objCategories.forEach(cat => {
+        const catEl = document.createElement('div');
+        catEl.innerHTML = `<div class="section-header">${cat.cat}</div>`;
+        
+        const table = document.createElement('table');
+        table.className = 'obj-table';
+        table.innerHTML = `
+            <thead>
+                <tr>
+                    <th>รายการประเมิน</th>
+                    <th style="width:50px; text-align:center;">1</th>
+                    <th style="width:50px; text-align:center;">2</th>
+                    <th style="width:50px; text-align:center;">3</th>
+                    <th style="width:50px; text-align:center;">4</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${cat.items.map(item => `
+                    <tr>
+                        <td><strong>ข้อ ${item.id}.</strong> ${item.text} <span style="color:red;">*</span></td>
+                        <td class="radio-cell"><input type="radio" name="obj_${item.id}" value="1"></td>
+                        <td class="radio-cell"><input type="radio" name="obj_${item.id}" value="2"></td>
+                        <td class="radio-cell"><input type="radio" name="obj_${item.id}" value="3"></td>
+                        <td class="radio-cell"><input type="radio" name="obj_${item.id}" value="4"></td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        `;
+        catEl.appendChild(table);
+        container.appendChild(catEl);
+    });
+}
+
+function renderSubjectiveQuestions() {
+    const container = document.getElementById('subjective-container');
+    subjCategories.forEach(item => {
+        const groupEl = document.createElement('div');
+        groupEl.className = 'subj-group';
+        groupEl.innerHTML = `
+            <div class="section-header" style="margin-top:0;">${item.cat}</div>
+            
+            <div style="margin-bottom:16px;">
+                <div class="subj-title">${item.q1.title} <span style="color:red;">*</span></div>
+                <div class="subj-desc">${item.q1.text}</div>
+                <textarea class="form-control" name="${item.q1.id}" placeholder="พิมพ์คำตอบของคุณที่นี่..."></textarea>
+            </div>
+
+            <div>
+                <div class="subj-title">${item.q2.title} <span style="color:red;">*</span></div>
+                <div class="subj-desc">${item.q2.text}</div>
+                <textarea class="form-control" name="${item.q2.id}" placeholder="พิมพ์คำตอบของคุณที่นี่..."></textarea>
+            </div>
+        `;
+        container.appendChild(groupEl);
+    });
+}
+
+// Logic แสดงผลลัพธ์
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'result') {
+    document.getElementById('assessment-view').style.display = 'none';
+    document.getElementById('result-view').style.display = 'block';
+
+    const name = urlParams.get('name') || '-';
+    const dept = urlParams.get('dept') || '-';
+    const startDate = urlParams.get('startDate') || '-';
+    const evalDate = urlParams.get('evalDate') || '-';
+    const totalScore = parseInt(urlParams.get('score') || '0');
+
+    document.getElementById('res-name').innerText = name;
+    document.getElementById('res-dept').innerText = dept;
+    document.getElementById('res-startdate').innerText = startDate;
+    document.getElementById('res-evaldate').innerText = evalDate;
+
+    document.getElementById('culture-score-display').innerText = `${totalScore} / 48 คะแนน`;
+
+    let level = {};
+    if (totalScore >= 37) level = scoreLevels.high;
+    else if (totalScore >= 25) level = scoreLevels.moderate;
+    else level = scoreLevels.low;
+
+    const resultCard = document.getElementById('result-card');
+    resultCard.className = level.class;
+    
+    document.getElementById('group-title').innerText = level.title;
+    document.getElementById('group-description').innerText = level.desc;
+    document.getElementById('group-action').innerHTML = level.action;
+
+    // แสดงคำตอบอัตนัย 8 ข้อในผลลัพธ์
+    const subjContainer = document.getElementById('res-subj-list');
+    subjCategories.forEach(item => {
+        const a1 = urlParams.get(item.q1.id) || '-';
+        const a2 = urlParams.get(item.q2.id) || '-';
+
+        const itemEl = document.createElement('div');
+        itemEl.className = 'res-subj-item';
+        itemEl.innerHTML = `
+            <div style="font-weight:bold; color:var(--primary); margin-bottom:6px;">${item.cat}</div>
+            <div style="margin-bottom:10px;">
+                <div class="res-subj-q">${item.q1.title} ${item.q1.text}</div>
+                <div class="res-subj-a">${a1}</div>
+            </div>
+            <div>
+                <div class="res-subj-q">${item.q2.title} ${item.q2.text}</div>
+                <div class="res-subj-a">${a2}</div>
+            </div>
+        `;
+        subjContainer.appendChild(itemEl);
+    });
+
+    // ปุ่มดาวน์โหลดรูปภาพ Single Capture
+    document.getElementById('download-btn').addEventListener('click', function() {
+        const captureArea = document.getElementById('capture-area');
+        html2canvas(captureArea, { scale: 2, useCORS: true }).then(canvas => {
+            const link = document.createElement('a');
+            link.download = `Attitude-Assessment-Result-${name}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    });
+
+} else {
+    // เรนเดอร์คำถามเมื่อเข้าหน้าเว็บปกติ
+    renderObjectiveQuestions();
+    renderSubjectiveQuestions();
+
+    document.getElementById('matrix-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // 1. ตรวจสอบข้อมูลพนักงาน
+        const nameInput = document.getElementById('empName');
+        const deptInput = document.getElementById('empDept');
+        const startDateInput = document.getElementById('startDate');
+
+        if (!nameInput.value.trim() || !deptInput.value.trim() || !startDateInput.value.trim()) {
+            alert('กรุณากรอกข้อมูลของคุณให้ครบถ้วน (ชื่อ, แผนก, และวันเริ่มงาน)');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
+        // 2. ตรวจสอบแบบปรนัย 12 ข้อ (Tab 1)
+        for (let i = 1; i <= 12; i++) {
+            if (!document.querySelector(`input[name="obj_${i}"]:checked`)) {
+                alert(`กรุณาเลือกตอบแบบประเมินส่วนที่ 1 (ปรนัย) ให้ครบถ้วน (ยังไม่ได้ตอบข้อที่ ${i})`);
+                switchTab('obj-tab');
+                return;
+            }
+        }
+
+        // 3. ตรวจสอบแบบอัตนัย 8 ข้อ (Tab 2)
+        for (let item of subjCategories) {
+            const val1 = document.querySelector(`textarea[name="${item.q1.id}"]`).value.trim();
+            const val2 = document.querySelector(`textarea[name="${item.q2.id}"]`).value.trim();
+
+            if (!val1 || !val2) {
+                alert(`กรุณากรอกคำตอบส่วนที่ 2 (อัตนัย) ใน "${item.cat}" ให้ครบถ้วนทั้ง 2 ข้อ`);
+                switchTab('subj-tab');
+                return;
+            }
+        }
+
+        // คำนวณคะแนนรวม 12 ข้อ
+        let totalScore = 0;
+        for (let i = 1; i <= 12; i++) {
+            totalScore += parseInt(document.querySelector(`input[name="obj_${i}"]:checked`).value);
+        }
+
+        const queryParams = new URLSearchParams({
+            mode: 'result',
+            name: nameInput.value.trim(),
+            dept: deptInput.value.trim(),
+            startDate: startDateInput.value,
+            evalDate: new Date().toISOString().split('T')[0],
+            score: totalScore
+        });
+
+        // ส่งคำตอบอัตนัยไปหน้าแสดงผล
+        subjCategories.forEach(item => {
+            const val1 = document.querySelector(`textarea[name="${item.q1.id}"]`).value.trim();
+            const val2 = document.querySelector(`textarea[name="${item.q2.id}"]`).value.trim();
+            queryParams.append(item.q1.id, val1);
+            queryParams.append(item.q2.id, val2);
+        });
+
+        // เปิด Tab ใหม่
+        window.open(`${window.location.pathname}?${queryParams.toString()}`, '_blank');
+    });
+}
+</script>
+
+</body>
+</html>
