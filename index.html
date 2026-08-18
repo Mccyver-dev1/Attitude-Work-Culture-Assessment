@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIAM-HRBP แบบประเมินทัศนคติและค่านิยมการทำงาน (Attitude & Work Culture Assessment)</title>
-
     <!-- html2canvas สำหรับบันทึกหน้าจอเป็นรูปภาพ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
     <style>
         :root {
             --primary: #2563eb;
@@ -38,20 +36,6 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
             flex: 1;
-        }
-
-        /* จัดระเบียบการแสดงผลของโลโก้ */
-        .logo-header {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .site-logo {
-            max-height: 70px;
-            width: auto;
-            max-width: 100%;
-            object-fit: contain;
-            display: inline-block;
         }
 
         h1 {
@@ -318,11 +302,6 @@
 <div class="container">
     <!-- หน้าทำแบบประเมิน -->
     <div id="assessment-view">
-        <!-- ย้ายโลโก้เข้ามาวางด้านบนของหัวข้อใน Container -->
-        <div class="logo-header">
-            <img src="logo.png" alt="SIAM HRBP Logo" class="site-logo">
-        </div>
-
         <h1>SIAM-HRBP แบบประเมินทัศนคติและค่านิยมการทำงาน</h1>
         <div class="subtitle">Attitude & Work Culture Combined Assessment (Objective & Subjective)</div>
 
@@ -351,7 +330,7 @@
             <!-- TAB 1: ปรนัย -->
             <div id="obj-tab" class="tab-content active">
                 <div class="instructions">
-                    <strong>คำชี้แจง:</strong> โปรดอ่านข้อความและเลือกระดับความคิดเห็นที่ตรงกับความเป็นจริงของพนักงานมากที่สุด (ต้องตอบครบทุกข้อ)<br>
+                    <strong>คำชี้แจง:</strong> โปรดอ่านข้อความและเลือกระดับความคิดเห็นที่ตรงกับความเป็นจริงของคุณมากที่สุด (ต้องตอบครบทุกข้อ)<br>
                     <strong>1</strong> = ไม่จริงเลย/น้อยที่สุด | <strong>2</strong> = จริงบางครั้ง/น้อย | <strong>3</strong> = จริงส่วนใหญ่/มาก | <strong>4</strong> = จริงที่สุด/มากที่สุด
                 </div>
 
@@ -378,12 +357,9 @@
         </form>
     </div>
 
-    <!-- หน้าแสดงผลลัพธ์ (เปิดใน Tab ใหม่) -->
+    <!-- หน้าแสดงผลลัพธ์ -->
     <div id="result-view" style="display: none;">
         <div id="capture-area">
-            <div class="logo-header">
-                <img src="logo.png" alt="SIAM HRBP Logo" class="site-logo">
-            </div>
             <h2 style="text-align: center; color: var(--primary); margin-top:0;">รายงานผลการประเมินทัศนคติและค่านิยมการทำงาน</h2>
             <div style="text-align: center; color: #64748b; font-size: 0.85rem; margin-bottom: 16px;">Attitude & Work Culture Assessment Report</div>
 
@@ -582,17 +558,20 @@ function renderSubjectiveQuestions() {
     });
 }
 
-// Logic แสดงผลลัพธ์
+// Logic การทำงาน
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('mode') === 'result') {
     document.getElementById('assessment-view').style.display = 'none';
     document.getElementById('result-view').style.display = 'block';
 
-    const name = urlParams.get('name') || '-';
-    const dept = urlParams.get('dept') || '-';
-    const startDate = urlParams.get('startDate') || '-';
-    const evalDate = urlParams.get('evalDate') || '-';
-    const totalScore = parseInt(urlParams.get('score') || '0');
+    // อ่านข้อมูลจาก localStorage แทน URL
+    const storedData = JSON.parse(localStorage.getItem('assessmentResult') || '{}');
+
+    const name = storedData.name || '-';
+    const dept = storedData.dept || '-';
+    const startDate = storedData.startDate || '-';
+    const evalDate = storedData.evalDate || '-';
+    const totalScore = parseInt(storedData.score || '0');
 
     document.getElementById('res-name').innerText = name;
     document.getElementById('res-dept').innerText = dept;
@@ -615,9 +594,11 @@ if (urlParams.get('mode') === 'result') {
 
     // แสดงคำตอบอัตนัย 8 ข้อในผลลัพธ์
     const subjContainer = document.getElementById('res-subj-list');
+    const subjAnswers = storedData.subjAnswers || {};
+
     subjCategories.forEach(item => {
-        const a1 = urlParams.get(item.q1.id) || '-';
-        const a2 = urlParams.get(item.q2.id) || '-';
+        const a1 = subjAnswers[item.q1.id] || '-';
+        const a2 = subjAnswers[item.q2.id] || '-';
 
         const itemEl = document.createElement('div');
         itemEl.className = 'res-subj-item';
@@ -660,7 +641,7 @@ if (urlParams.get('mode') === 'result') {
         const startDateInput = document.getElementById('startDate');
 
         if (!nameInput.value.trim() || !deptInput.value.trim() || !startDateInput.value.trim()) {
-            alert('กรุณากรอกข้อมูลของคุณให้ครบถ้วน (ชื่อ, แผนก, และวันเริ่มงาน)');
+            alert('กรุณากรอกข้อมูลพนักงานให้ครบถ้วน (ชื่อ, แผนก, และวันเริ่มงาน)');
             window.scrollTo({ top: 0, behavior: 'smooth' });
             return;
         }
@@ -692,25 +673,27 @@ if (urlParams.get('mode') === 'result') {
             totalScore += parseInt(document.querySelector(`input[name="obj_${i}"]:checked`).value);
         }
 
-        const queryParams = new URLSearchParams({
-            mode: 'result',
+        // เก็บคำตอบอัตนัย
+        const subjAnswers = {};
+        subjCategories.forEach(item => {
+            subjAnswers[item.q1.id] = document.querySelector(`textarea[name="${item.q1.id}"]`).value.trim();
+            subjAnswers[item.q2.id] = document.querySelector(`textarea[name="${item.q2.id}"]`).value.trim();
+        });
+
+        // บันทึกลง localStorage (ไม่ทำให้ URL ยาว)
+        const resultData = {
             name: nameInput.value.trim(),
             dept: deptInput.value.trim(),
             startDate: startDateInput.value,
             evalDate: new Date().toISOString().split('T')[0],
-            score: totalScore
-        });
+            score: totalScore,
+            subjAnswers: subjAnswers
+        };
 
-        // ส่งคำตอบอัตนัยไปหน้าแสดงผล
-        subjCategories.forEach(item => {
-            const val1 = document.querySelector(`textarea[name="${item.q1.id}"]`).value.trim();
-            const val2 = document.querySelector(`textarea[name="${item.q2.id}"]`).value.trim();
-            queryParams.append(item.q1.id, val1);
-            queryParams.append(item.q2.id, val2);
-        });
+        localStorage.setItem('assessmentResult', JSON.stringify(resultData));
 
-        // เปิด Tab ใหม่
-        window.open(`${window.location.pathname}?${queryParams.toString()}`, '_blank');
+        // เปิด Tab ใหม่โดยส่งแค่แบบสั้นสั้น
+        window.open(`${window.location.pathname}?mode=result`, '_blank');
     });
 }
 </script>
